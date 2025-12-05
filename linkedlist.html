@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png" href="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png">
+<title>Visual Linked List</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX */
+  *, *::before, *::after {
+    transition-property: all;
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* --- Styles for the Table Layout --- */
+  .linked-list-table {
+    border-collapse: collapse;
+    /* 100% width, but min-width ensures it's wide enough for all columns on small screens */
+    min-width: 800px; 
+  }
+
+  .linked-list-table th, .linked-list-table td {
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  }
+
+  .dark .linked-list-table th, .dark .linked-list-table td {
+    border-bottom: 1px solid #374151; /* gray-700 */
+    color: #d1d5db; /* gray-300 */
+  }
+
+  .linked-list-table thead {
+    background-color: #f3f4f6; /* gray-100 */
+  }
+
+  .dark .linked-list-table thead {
+    background-color: #4b5563; /* gray-600 */
+  }
+</style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+
+<nav class="bg-blue-600 text-white p-4">
+  <div class="container mx-auto flex justify-between">
+    <h1 class="text-xl font-bold">Visual Linked List</h1>
+    <div class="flex items-center space-x-4">
+      <a href="index.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Home</a>
+      <a href="crud.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">CRUD</a>
+      <a href="linkedlist.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Linked List</a>
+      
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500 transition duration-300">
+        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition duration-500 ease-in-out transform hover:shadow-xl">
+  <h2 class="text-2xl font-semibold mb-4 dark:text-white transition-colors duration-500">Visual Linked List</h2>
+  
+  <div class="mb-6">
+    <input id="linkedListSearchInput" type="text" placeholder="Filter nodes by ID, Name, Block, Instructor, or Subject..." 
+           class="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300"
+           onkeyup="renderLinkedList()">
+  </div>
+  
+  <div class="overflow-x-auto">
+    <div id="linkedList" class="flex flex-col gap-0 items-center">
+      </div>
+  </div>
+</div>
+
+<script>
+// CRITICAL FIX: Force Tailwind to use the 'class' strategy
+tailwind.config = {
+  darkMode: 'class',
+}
+
+function renderLinkedList() {
+  const container = document.getElementById("linkedList");
+  container.innerHTML = "";
+
+  // Get ALL records from localStorage
+  let allRecords = JSON.parse(localStorage.getItem("crudRecords")) || [];
+
+  // Search logic
+  const searchInput = document.getElementById("linkedListSearchInput");
+  const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  
+  // 1. Filter records based on search term
+  const filteredRecords = allRecords.filter(r => {
+      if (!searchTerm) return true;
+
+      // Check if search term is present in any field (ID, Name, Block, Instructor, Subject)
+      return String(r.id).toLowerCase().includes(searchTerm) ||
+             r.name.toLowerCase().includes(searchTerm) ||
+             r.block.toLowerCase().includes(searchTerm) ||
+             r.instructor.toLowerCase().includes(searchTerm) ||
+             r.subject.toLowerCase().includes(searchTerm);
+  });
+
+  if (allRecords.length === 0) {
+    container.innerHTML = "<p class='text-gray-500 dark:text-gray-400'>No records available. Add records in the CRUD page first.</p>";
+    return;
+  } 
+  
+  if (filteredRecords.length === 0 && searchTerm !== "") {
+     container.innerHTML = `<p class='text-gray-500 dark:text-gray-400'>No linked list nodes found matching "${searchTerm}".</p>`;
+     return;
+  }
+
+  // 2. Generate Table Structure
+  let tableHTML = `
+    <table class="linked-list-table min-w-full dark:text-gray-300">
+      <thead>
+        <tr>
+          <th class="text-center w-1/12">Picture</th> 
+          <th class="text-left w-1/12">ID</th>
+          <th class="text-left w-1/4">Name</th>
+          <th class="text-left w-1/12">Block</th>
+          <th class="text-left w-1/4">Instructor</th>
+          <th class="text-left w-1/4">Subject</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  filteredRecords.forEach(r => {
+    // Logic to display profile picture or placeholder
+    const pictureHtml = r.picture 
+      ? `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500">`
+      : `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400">👤</div>`;
+
+    tableHTML += `
+      <tr class="dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
+        <td class="text-center">${pictureHtml}</td> 
+        <td class="text-left">${r.id}</td>
+        <td class="text-left">${r.name}</td>
+        <td class="text-left">${r.block}</td>
+        <td class="text-left">${r.instructor}</td>
+        <td class="text-left">${r.subject}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `
+      </tbody>
+    </table>
+  `;
+
+  // Display the generated table
+  container.innerHTML = tableHTML;
+}
+
+// Initial render
+renderLinkedList();
+
+// CRITICAL FEATURE FOR AUTO-UPDATE: 
+// This listens for changes in localStorage made by another tab (i.e., crud.html)
+window.addEventListener('storage', renderLinkedList); 
+
+// **DARK MODE SCRIPT**
+window.addEventListener('load', () => {
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+
+    if (!toggleBtn || !sunIcon || !moonIcon) {
+        console.error("Dark Mode toggle elements not found in the DOM.");
+        return; 
+    }
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      sunIcon.classList.toggle('hidden', isDark);
+      moonIcon.classList.toggle('hidden', !isDark);
+      
+      renderLinkedList(); 
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(!htmlEl.classList.contains('dark'));
+    });
+});
+</script>
+
+</body>
+</html>

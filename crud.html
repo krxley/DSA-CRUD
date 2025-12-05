@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png" href="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png">
+<title>CRUD System</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
+<style>
+  /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX: Ensures all elements transition smoothly */
+  *, *::before, *::after {
+    transition-property: all;
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+</style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+
+<nav class="bg-blue-600 text-white p-4">
+  <div class="container mx-auto flex justify-between">
+    <h1 class="text-xl font-bold">CRUD System</h1>
+    <div class="flex items-center space-x-4">
+      <a href="index.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Home</a>
+      <a href="crud.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">CRUD</a>
+      <a href="linkedlist.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Linked List</a>
+      
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500 transition duration-300">
+        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="container mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition duration-500 ease-in-out transform hover:shadow-xl">
+
+  <h2 class="text-2xl font-semibold mb-4 dark:text-white transition-colors duration-500">Manage Records</h2>
+
+  <div class="mb-4">
+    <input id="searchInput" type="text" placeholder="Search by ID, Name, Block, Instructor, or Subject..." 
+           class="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300" 
+           onkeyup="renderTable()">
+  </div>
+  
+  <div class="flex flex-wrap gap-4 mb-4 items-end">
+    <input id="idInput" type="number" placeholder="ID" class="p-2 border rounded w-full lg:w-32 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
+    <input id="nameInput" type="text" placeholder="Name" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
+    <input id="blockInput" type="text" placeholder="Block" class="p-2 border rounded w-full lg:w-32 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
+    <input id="instructorInput" type="text" placeholder="Instructor" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
+    <input id="subjectInput" type="text" placeholder="Subject" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
+    
+    <div class="flex flex-col space-y-2 p-2 border rounded dark:border-gray-600 w-full md:w-1/2 lg:w-auto">
+        <label for="imageInput" class="text-sm dark:text-gray-400 font-medium">Profile Picture (Optional)</label>
+        <input id="imageInput" type="file" accept="image/*" class="file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:text-gray-200">
+    </div>
+    
+    <button onclick="createRecord()" class="bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md hover:shadow-lg w-full md:w-auto">Create</button>
+    <button onclick="updateRecord()" class="bg-yellow-500 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-yellow-600 hover:scale-105 shadow-md hover:shadow-lg w-full md:w-auto">Update</button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full table-auto border-collapse">
+      <thead class="bg-gray-200 dark:bg-gray-700 border-b border-gray-400 dark:border-gray-600 transition-colors duration-500">
+        <tr>
+          <th class="min-w-[80px] p-2 text-center dark:text-white">Picture</th> 
+          <th class="min-w-[50px] p-2 text-center dark:text-white">ID</th>
+          <th class="min-w-[150px] p-2 text-left dark:text-white">Name</th>
+          <th class="min-w-[80px] p-2 text-center dark:text-white">Block</th>
+          <th class="min-w-[150px] p-2 text-left dark:text-white">Instructor</th>
+          <th class="min-w-[150px] p-2 text-left dark:text-white">Subject</th>
+          <th class="min-w-[120px] p-2 dark:text-white">Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <button onclick="clearAll()" class="mt-5 bg-gray-700 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-800 hover:scale-105 shadow-md hover:shadow-lg">
+    Clear All
+  </button>
+
+</div>
+
+<script>
+  let records = JSON.parse(localStorage.getItem("crudRecords")) || [];
+
+  function save() {
+    localStorage.setItem("crudRecords", JSON.stringify(records));
+  }
+
+  // NEW ASYNC HELPER FUNCTION: Converts a file object to a Base64 Data URL string
+  function readFileAsDataURL(file) {
+    if (!file) return Promise.resolve(null);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Render table (UPDATED for Search Bar and Picture Column)
+  function renderTable() {
+    const table = document.getElementById("tableBody");
+    const searchInput = document.getElementById("searchInput");
+    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : "";
+    
+    table.innerHTML = "";
+
+    const filteredRecords = records.filter(r => {
+        if (!searchTerm) return true;
+
+        return String(r.id).toLowerCase().includes(searchTerm) ||
+               r.name.toLowerCase().includes(searchTerm) ||
+               r.block.toLowerCase().includes(searchTerm) ||
+               r.instructor.toLowerCase().includes(searchTerm) ||
+               r.subject.toLowerCase().includes(searchTerm);
+    });
+
+    filteredRecords.forEach(r => {
+      // Construct the image HTML, defaulting to a placeholder if no picture is stored
+      const pictureHtml = r.picture 
+        ? `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500">`
+        : `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400">👤</div>`;
+        
+      table.innerHTML += `
+        <tr class="border-b border-gray-200 dark:border-gray-700 transition duration-300 ease-in-out dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <td class="p-2 text-center">${pictureHtml}</td> <td class="p-2 text-center">${r.id}</td>
+          <td class="p-2 text-left">${r.name}</td>
+          <td class="p-2 text-center">${r.block}</td>
+          <td class="p-2 text-left">${r.instructor}</td>
+          <td class="p-2 text-left">${r.subject}</td>
+          <td class="p-2 text-center space-x-2">
+            <button onclick="loadRecord(${r.id})" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm transition duration-200 hover:bg-yellow-600 hover:scale-110">Edit</button>
+            <button onclick="deleteRecord(${r.id})" class="bg-red-600 text-white px-2 py-1 rounded text-sm transition duration-200 hover:bg-red-700 hover:scale-110">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+    
+    // Display message if no records match the filter
+    if (filteredRecords.length === 0 && searchTerm !== "") {
+        table.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500 dark:text-gray-400">No records found matching "${searchTerm}".</td></tr>`;
+    } else if (records.length === 0) {
+        table.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500 dark:text-gray-400">No records created yet.</td></tr>`;
+    }
+  }
+
+  // Create record (UPDATED to be async to handle file reading)
+  async function createRecord() {
+    let id = parseInt(idInput.value);
+    let name = nameInput.value.trim();
+    let block = blockInput.value.trim();
+    let instructor = instructorInput.value.trim();
+    let subject = subjectInput.value.trim();
+    
+    const imageFile = document.getElementById("imageInput").files[0];
+
+    if (!id || !name || !block || !instructor || !subject) {
+      return alert("Fill all fields!");
+    }
+    if (records.some(r => r.id === id)) return alert("ID already exists!");
+
+    // Wait for the image file to be converted to a Data URL
+    const pictureDataURL = await readFileAsDataURL(imageFile);
+
+    records.push({ 
+      id, 
+      name, 
+      block, 
+      instructor, 
+      subject, 
+      picture: pictureDataURL // Save the Data URL
+    });
+    
+    save();
+    renderTable();
+    idInput.value = nameInput.value = blockInput.value = instructorInput.value = subjectInput.value = "";
+    document.getElementById("imageInput").value = ""; // Clear file input
+  }
+
+  // Load record for editing (UPDATED to clear image input)
+  function loadRecord(id) {
+    let r = records.find(x => x.id === id);
+    if (r) {
+      idInput.value = r.id;
+      nameInput.value = r.name;
+      blockInput.value = r.block;
+      instructorInput.value = r.instructor;
+      subjectInput.value = r.subject;
+      // Clear file input on load. To update the picture, the user must select a new one.
+      document.getElementById("imageInput").value = ""; 
+    }
+  }
+
+  // Update record (UPDATED to be async to handle file reading)
+  async function updateRecord() {
+    let id = parseInt(idInput.value);
+    let r = records.find(x => x.id === id);
+    const imageFile = document.getElementById("imageInput").files[0];
+
+    if (!r) return alert("Record not found!");
+    
+    // If a new image is selected, convert it and use the new Data URL.
+    // Otherwise, r.picture remains the original Data URL (or null).
+    let newPictureDataURL = r.picture; 
+
+    if (imageFile) {
+      newPictureDataURL = await readFileAsDataURL(imageFile);
+    }
+    
+    r.name = nameInput.value.trim();
+    r.block = blockInput.value.trim();
+    r.instructor = instructorInput.value.trim();
+    r.subject = subjectInput.value.trim();
+    r.picture = newPictureDataURL; // Update picture field
+
+    save();
+    renderTable();
+    idInput.value = nameInput.value = blockInput.value = instructorInput.value = subjectInput.value = "";
+    document.getElementById("imageInput").value = ""; // Clear file input
+  }
+
+  // Delete record
+  function deleteRecord(id) {
+    records = records.filter(r => r.id !== id);
+    save();
+    renderTable();
+  }
+
+  // Clear all
+  function clearAll() {
+    if (confirm("Are you sure you want to clear all records?")) {
+      records = [];
+      save();
+      renderTable();
+    }
+  }
+
+  renderTable();
+
+  // **DARK MODE SCRIPT**
+  window.addEventListener('load', () => {
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+
+    if (!toggleBtn || !sunIcon || !moonIcon) {
+        console.error("Dark Mode toggle elements not found in the DOM.");
+        return; 
+    }
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      sunIcon.classList.toggle('hidden', isDark);
+      moonIcon.classList.toggle('hidden', !isDark);
+      
+      // Re-render table to ensure data text colors apply immediately when theme changes
+      renderTable(); 
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(!htmlEl.classList.contains('dark'));
+    });
+  });
+</script>
+
+</body>
+</html>
