@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" type="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png" href="C:\Users\eleazhar myke\OneDrive\Desktop\DSA - Crud System HTML\DSA ICON.png">
 <title>Data Structures Website</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
+
 <style>
+  /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX: 
+  This applies a smooth transition to all elements for background, text, borders, and shadows.
+  */
+  *, *::before, *::after {
+    transition-property: all; /* Use 'all' for simplicity, or explicitly list properties below */
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* --- EXISTING ANIMATION STYLES --- */
   .fade-in-content {
     opacity: 0;
     transform: translateY(20px);
@@ -12,27 +29,16 @@
     animation-delay: 0.3s;
   }
   @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
   }
-  /* Animation for the developer cards */
   @keyframes slideInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .developer-card {
     opacity: 0;
     animation: slideInUp 0.6s ease-out forwards;
   }
-  /* Style for the profile picture */
   .profile-pic {
     width: 60px;
     height: 60px;
@@ -43,100 +49,143 @@
   }
 </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 dark:bg-gray-900">
 
-<nav class="bg-blue-600 text-white p-4">
+<nav class="bg-blue-600 dark:bg-gray-800 text-white p-4">
   <div class="container mx-auto flex justify-between">
     <h1 class="text-xl font-bold">Data Structures</h1>
-    <div class="space-x-4">
-      <a href="index.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Home</a>
-      <a href="crud.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">CRUD</a>
-      <a href="linkedlist.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Linked List</a>
+    <div class="flex items-center space-x-4">
+      <a href="index.html" class="hover:underline hover:text-gray-200">Home</a>
+      <a href="crud.html" class="hover:underline hover:text-gray-200">CRUD</a>
+      <a href="linkedlist.html" class="hover:underline hover:text-gray-200">Linked List</a>
+      
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500">
+        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      </button>
     </div>
   </div>
 </nav>
 
 <div class="container mx-auto mt-10 text-center fade-in-content">
-  <h2 class="text-3xl font-semibold mb-4">Welcome to Data Structures Website</h2>
-  <p class="text-lg text-gray-700">Explore CRUD operations and Linked List visualization.</p>
+  <h2 class="text-3xl font-semibold mb-4 dark:text-white">Welcome to Data Structures Website</h2>
+  <p class="text-lg text-gray-700 dark:text-gray-400">Explore CRUD operations and Linked List visualization.</p>
 </div>
 
-<div class="container mx-auto mt-12 bg-white p-8 rounded-lg shadow-xl fade-in-content" style="animation-delay: 1.0s;">
-  <h3 class="text-2xl font-bold text-blue-600 mb-6 border-b pb-2">🚀 Meet the Development Team (10 Members)</h3>
+<div class="container mx-auto mt-12 bg-white p-8 rounded-lg shadow-xl fade-in-content dark:bg-gray-800" style="animation-delay: 1.0s;">
+  <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 border-b pb-2 dark:border-gray-600">🚀 Meet the Developer Team</h3>
   <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.2s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.2s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\almojera.jpg" alt="Almojera, Jhon Karl M. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Almojera, Jhon Karl M.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Almojera, Jhon Karl M.</p>
       <p class="text-sm text-blue-500 font-medium">Project Lead</p>
-      <p class="text-xs text-gray-600 mt-1">Oversees all development phases and coordination.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Oversees all development phases and coordination.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.3s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.3s;">
       <img src="C:\Users\eleazhar myke\OneDrive\画像\MYKE PHOTO'S.jpg" alt="Bautista, Myke Eleazhar H. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Bautista, Myke Eleazhar H.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Bautista, Myke Eleazhar H.</p>
       <p class="text-sm text-blue-500 font-medium">Frontend Architect</p>
-      <p class="text-xs text-gray-600 mt-1">Responsible for the UI/UX design and responsiveness.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Responsible for the UI/UX design and responsiveness.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.4s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.4s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\besa.png" alt="Besa, Karl Ashley S. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Besa, Karl Ashley S.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Besa, Karl Ashley S.</p>
       <p class="text-sm text-blue-500 font-medium">CRUD System Specialist</p>
-      <p class="text-xs text-gray-600 mt-1">Managed the Create, Read, Update, Delete functionality.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Managed the Create, Read, Update, Delete functionality.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.5s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.5s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\buccat.jpg" alt="Buccat, Dave Mathew T. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Buccat, Dave Mathew T.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Buccat, Dave Mathew T.</p>
       <p class="text-sm text-blue-500 font-medium">Data Structure Logic</p>
-      <p class="text-xs text-gray-600 mt-1">Developed the underlying logic for the Linked List.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Developed the underlying logic for the Linked List.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.6s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.6s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\diaz.jpg" alt="Diaz, Mark Reniel J. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Diaz, Mark Reniel J.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Diaz, Mark Reniel J.</p>
       <p class="text-sm text-blue-500 font-medium">Visualization Engineer</p>
-      <p class="text-xs text-gray-600 mt-1">Implemented the visual display of the Linked List nodes.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Implemented the visual display of the Linked List nodes.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.7s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.7s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\landingin.jpg" alt="Landingin, Stephen M. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Landingin, Stephen M.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Landingin, Stephen M.</p>
       <p class="text-sm text-blue-500 font-medium">Local Storage Manager</p>
-      <p class="text-xs text-gray-600 mt-1">Handled data persistence and state management (localStorage).</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Handled data persistence and state management (localStorage).</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.8s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.8s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\jGjNOA3.jpeg" alt="Dev Member 7 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Tagalicud, Linthon Danielle P.</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Tagalicud, Linthon Danielle P.</p>
       <p class="text-sm text-blue-500 font-medium">Styling & Animation</p>
-      <p class="text-xs text-gray-600 mt-1">Responsible for CSS transitions and smooth effects (Tailwind).</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Responsible for CSS transitions and smooth effects (Tailwind).</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 1.9s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.9s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\XShdUqc.jpeg" alt="Dev Member 8 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Gonatice, Jose Marino</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Gonatice, Jose Marino</p>
       <p class="text-sm text-blue-500 font-medium">Testing and QA</p>
-      <p class="text-xs text-gray-600 mt-1">Ensured cross-browser compatibility and bug-free operation.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Ensured cross-browser compatibility and bug-free operation.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 2.0s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.0s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\1kT1Nmm.jpeg" alt="Dev Member 9 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Quiming, Tristan James</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Quiming, Tristan James</p>
       <p class="text-sm text-blue-500 font-medium">Documentation</p>
-      <p class="text-xs text-gray-600 mt-1">Authored the project's technical documentation and guides.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Authored the project's technical documentation and guides.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 rounded-lg shadow-md hover:shadow-xl transition duration-300 developer-card" style="animation-delay: 2.1s;">
+    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.1s;">
       <img src="C:\Users\eleazhar myke\OneDrive\Desktop\DSA\vEKOiSD.jpeg" alt="Dev Member 10 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800">Reyes, Kent Jefferson</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200">Reyes, Kent Jefferson</p>
       <p class="text-sm text-blue-500 font-medium">Deployment Support</p>
-      <p class="text-xs text-gray-600 mt-1">Assisted with the final deployment and hosting setup.</p>
+      <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Assisted with the final deployment and hosting setup.</p>
     </div>
     
   </div>
 </div>
 
+<script>
+  window.addEventListener('load', () => {
+    const htmlEl = document.documentElement;
+    const toggleBtn = document.getElementById('darkModeToggle');
+    const sunIcon = document.getElementById('sunIcon');
+    const moonIcon = document.getElementById('moonIcon');
+
+    if (!toggleBtn || !sunIcon || !moonIcon) {
+        console.error("Dark Mode toggle elements not found in the DOM.");
+        return; 
+    }
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlEl.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      sunIcon.classList.toggle('hidden', isDark);
+      moonIcon.classList.toggle('hidden', !isDark);
+    }
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      applyTheme(true);
+    } else {
+      applyTheme(false);
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      applyTheme(!htmlEl.classList.contains('dark'));
+    });
+  });
+</script>
 </body>
 </html>
