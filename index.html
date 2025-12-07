@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="shortcut icon" type="images\DSA ICON.png" href="images\DSA ICON.png">
-<title>Data Structures Website</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="images\DSA LOGO.png" href="images\DSA LOGO.png">
+<title>Data Structure CRUD System Website - Home</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -12,16 +13,58 @@
 </script>
 
 <style>
-  /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX: 
-  This applies a smooth transition to all elements for background, text, borders, and shadows.
-  */
+  /* 🌐 UNIVERSAL SMOOTH TRANSITION FIX */
   *, *::before, *::after {
-    transition-property: all; /* Use 'all' for simplicity, or explicitly list properties below */
+    transition-property: all;
     transition-duration: 500ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* --- EXISTING ANIMATION STYLES --- */
+  /* --- 🚀 NEW NAVBAR STYLES --- */
+  
+  /* Glass effect for the navbar */
+  .glass-nav {
+      background: rgba(37, 99, 235, 0.85); /* Blue-600 with transparency */
+      backdrop-filter: blur(12px);          /* The frosted glass blur */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .dark .glass-nav {
+      background: rgba(17, 24, 39, 0.85);   /* Dark mode transparency */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* The smooth link item */
+  .nav-item {
+      position: relative;
+      /* Adjusted padding for responsiveness, now handled by Tailwind classes */
+      padding: 0.5rem 0.75rem; 
+      border-radius: 9999px; /* Pill shape */
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+  }
+
+  /* Hover State: Lift up, glow, and brighten */
+  .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Active State (Current Page) */
+  .nav-item.active-link {
+      background-color: white;
+      color: #2563eb; /* Blue-600 text */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+  }
+  .dark .nav-item.active-link {
+      background-color: #3b82f6; /* Blue-500 in dark mode */
+      color: white;
+  }
+
+  /* --- EXISTING PAGE ANIMATIONS --- */
   .fade-in-content {
     opacity: 0;
     transform: translateY(20px);
@@ -45,104 +88,157 @@
     border-radius: 50%;
     object-fit: cover;
     margin: 0 auto 10px;
-    border: 3px solid #3b82f6; /* blue-500 border */
+    border: 3px solid #3b82f6; 
   }
 </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900">
 
-<nav class="bg-blue-600 dark:bg-gray-800 text-white p-4">
-  <div class="container mx-auto flex justify-between">
-    <h1 class="text-xl font-bold">Data Structures</h1>
-    <div class="flex items-center space-x-4">
-      <a href="index.html" class="hover:underline hover:text-gray-200">Home</a>
-      <a href="crud.html" class="hover:underline hover:text-gray-200">CRUD</a>
-      <a href="linkedlist.html" class="hover:underline hover:text-gray-200">Linked List</a>
+<nav class="sticky top-0 z-50 glass-nav text-white transition-all duration-300 shadow-md">
+  <div class="container mx-auto flex justify-between items-center p-4">
+    
+    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2">
+      <img src="images\DSA.png" alt="DSA Logo" class="w-6 h-6 md:w-9 md:h-9 invert filter drop-shadow-lg">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200 filter drop-shadow-md">
+        DSA Crud System
+      </span>
+    </h1>
+
+    <div class="flex items-center space-x-2 md:space-x-4">
+      <a href="index.html" class="nav-item active-link text-sm md:text-base">Home</a> 
+      <a href="crud.html" class="nav-item text-sm md:text-base">CRUD</a>
+      <a href="linkedlist.html" class="nav-item text-sm md:text-base">Linked List</a>
       
-      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500">
-        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-white/20 transition-all duration-500 hover:rotate-180 transform focus:outline-none ring-2 ring-transparent focus:ring-white/50">
+        <svg id="sunIcon" class="w-6 h-6 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<div class="container mx-auto mt-10 text-center fade-in-content">
-  <h2 class="text-3xl font-semibold mb-4 dark:text-white">Welcome to Data Structures Website</h2>
-  <p class="text-lg text-gray-700 dark:text-gray-400">Explore CRUD operations and Linked List visualization.</p>
+<div class="container mx-auto mt-10 px-4 text-center fade-in-content">
+  <h2 class="text-4xl font-extrabold text-gray-700 dark:text-white leading-tight"> 
+        🗳️ Welcome to the <span class="text-blue-500 dark:text-blue-400">Data Structure CRUD System</span></h2>
+  <p class="text-xl text-gray-700 dark:text-gray-400 max-w-3xl mx-auto mt-4"> 
+    This website is a hands-on platform designed to demonstrate fundamental Data Structures and Algorithms (DSA) concepts, specifically focusing on Create, Read, Update, and Delete (CRUD) operations using a Linked List data structure.
+  </p>
 </div>
 
-<div class="container mx-auto mt-12 bg-white p-8 rounded-lg shadow-xl fade-in-content dark:bg-gray-800" style="animation-delay: 1.0s;">
-  <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 border-b pb-2 dark:border-gray-600">🚀 Meet the Developer Team</h3>
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+<div class="container mx-auto mt-12 px-4 grid grid-cols-1 md:grid-cols-2 gap-8 fade-in-content" style="animation-delay: 1.0s;">
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.2s;">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl transition duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-green-500/50 dark:hover:shadow-green-600/50">
+        <h3 class="text-3xl font-bold text-green-600 dark:text-green-400 mb-4 flex items-center space-x-2"> 
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V10l-4-4z"></path></svg>
+            <span>CRUD Management</span>
+        </h3>
+        <p class="text-base text-gray-600 dark:text-gray-300 mb-6"> 
+            The CRUD page allows you to interact directly with student records. You can Create new entries, Read the current list, Update existing records, and Delete any entry. All data is managed locally using localStorage.
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic mb-6 border-l-4 border-green-500 pl-3 py-1 bg-green-50 dark:bg-gray-700/50">
+            Key Feature: Use the search bar to filter records instantly and observe the smooth table row animations.
+        </p>
+        <a href="crud.html" class="inline-flex items-center justify-center bg-green-500 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300 ease-in-out hover:bg-green-700 hover:scale-105 shadow-lg hover:shadow-xl space-x-2">
+            <img src="images\DSA.png" alt="Linked List Icon" class="w-5 h-5 invert filter">
+            <span>Go to CRUD System</span>
+        </a>
+    </div>
+    
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl transition duration-500 ease-in-out transform hover:scale-[1.02] hover:shadow-purple-500/50 dark:hover:shadow-purple-600/50">
+        <h3 class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-4 flex items-center space-x-2"> 
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v7.818c0 .354.127.698.355.975L5 16h2.182a.29.29 0 01.192.083l.872.872m1.218-1.218L21 21"></path></svg>
+            <span>Linked List View</span>
+        </h3>
+        <p class="text-base text-gray-600 dark:text-gray-300 mb-6"> 
+            The Linked List page dynamically retrieves the records you create in the CRUD system and displays them in a single, sequential list format, visualizing the concept of chained nodes without the overhead of complex drawing.
+        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 italic mb-6 border-l-4 border-purple-500 pl-3 py-1 bg-purple-50 dark:bg-gray-700/50">
+            Key Feature: The list automatically updates when data changes in the CRUD page, demonstrating live data structure connection.
+        </p>
+        <a href="linkedlist.html" class="inline-flex items-center justify-center bg-purple-500 text-white px-6 py-3 rounded-full font-semibold text-lg transition duration-300 ease-in-out hover:bg-purple-700 hover:scale-105 shadow-lg hover:shadow-xl space-x-2">
+            <img src="images\user.png" alt="Linked List Icon" class="w-5 h-5 invert filter">
+            <span>View Linked List</span>
+        </a>
+    </div>
+
+</div>
+
+<div class="container mx-auto mt-12 mb-12 px-4 bg-white p-8 rounded-lg shadow-xl fade-in-content dark:bg-gray-800" style="animation-delay: 1.8s;">
+  <h3 class="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-6 border-b pb-2 dark:border-gray-600 flex items-center space-x-2"> 
+    <img src="images\group.png" alt="Team Logo" class="w-9 h-9 dark:invert filter drop-shadow-lg">
+    <span>
+        Meet the Developer Team
+    </span>
+  </h3>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6 text-center">
+    
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.0s;">
       <img src="images/almojera.jpg" alt="Almojera, Jhon Karl M. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Almojera, Jhon Karl M.</p>
-      <p class="text-sm text-blue-500 font-medium">Project Lead</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Almojera, Jhon Karl M.</p>
+      <p class="text-sm text-teal-400 font-medium">Project Lead</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Oversees all development phases and coordination.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.3s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.1s;">
       <img src="images/bautista.jpg" alt="Bautista, Myke Eleazhar H. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Bautista, Myke Eleazhar H.</p>
-      <p class="text-sm text-blue-500 font-medium">Frontend Architect</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Bautista, Myke Eleazhar H.</p>
+      <p class="text-sm text-teal-400 font-medium">Frontend Architect</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Responsible for the UI/UX design and responsiveness.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.4s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.2s;">
       <img src="images\besa.png" alt="Besa, Karl Ashley S. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Besa, Karl Ashley S.</p>
-      <p class="text-sm text-blue-500 font-medium">CRUD System Specialist</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Besa, Karl Ashley S.</p>
+      <p class="text-sm text-teal-400 font-medium">CRUD System Specialist</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Managed the Create, Read, Update, Delete functionality.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.5s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.3s;">
       <img src="images\buccat.jpg" alt="Buccat, Dave Mathew T. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Buccat, Dave Mathew T.</p>
-      <p class="text-sm text-blue-500 font-medium">Data Structure Logic</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Buccat, Dave Mathew T.</p>
+      <p class="text-sm text-teal-400 font-medium">Data Structure Logic</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Developed the underlying logic for the Linked List.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.6s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.4s;">
       <img src="images\diaz.jpg" alt="Diaz, Mark Reniel J. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Diaz, Mark Reniel J.</p>
-      <p class="text-sm text-blue-500 font-medium">Visualization Engineer</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Diaz, Mark Reniel J.</p>
+      <p class="text-sm text-teal-400 font-medium">Visualization Engineer</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Implemented the visual display of the Linked List nodes.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.7s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.5s;">
       <img src="images\landingin.jpg" alt="Landingin, Stephen M. Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Landingin, Stephen M.</p>
-      <p class="text-sm text-blue-500 font-medium">Local Storage Manager</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Landingin, Stephen M.</p>
+      <p class="text-sm text-teal-400 font-medium">Local Storage Manager</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Handled data persistence and state management (localStorage).</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.8s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.6s;">
       <img src="images\jGjNOA3.jpeg" alt="Dev Member 7 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Tagalicud, Linthon Danielle P.</p>
-      <p class="text-sm text-blue-500 font-medium">Styling & Animation</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Tagalicud, Linthon Danielle P.</p>
+      <p class="text-sm text-teal-400 font-medium">Styling & Animation</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Responsible for CSS transitions and smooth effects (Tailwind).</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 1.9s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.7s;">
       <img src="images\XShdUqc.jpeg" alt="Dev Member 8 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Gonatice, Jose Marino</p>
-      <p class="text-sm text-blue-500 font-medium">Testing and QA</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Gonatice, Jose Marino</p>
+      <p class="text-sm text-teal-400 font-medium">Testing and QA</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Ensured cross-browser compatibility and bug-free operation.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.0s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.8s;">
       <img src="images/quiming.jpeg" alt="Dev Member 9 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Quiming, Tristan James</p>
-      <p class="text-sm text-blue-500 font-medium">Documentation</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Quiming, Tristan James</p>
+      <p class="text-sm text-teal-400 font-medium">Documentation</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Authored the project's technical documentation and guides.</p>
     </div>
     
-    <div class="p-4 bg-blue-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.1s;">
+    <div class="p-3 bg-green-50 dark:bg-gray-700 rounded-lg shadow-md hover:shadow-xl duration-300 developer-card" style="animation-delay: 2.9s;">
       <img src="images\vEKOiSD.jpeg" alt="Dev Member 10 Profile" class="profile-pic">
-      <p class="font-semibold text-gray-800 dark:text-gray-200">Reyes, Kent Jefferson</p>
-      <p class="text-sm text-blue-500 font-medium">Deployment Support</p>
+      <p class="font-semibold text-gray-800 dark:text-gray-200 text-base">Reyes, Kent Jefferson</p>
+      <p class="text-sm text-teal-400 font-medium">Deployment Support</p>
       <p class="text-xs text-gray-600 mt-1 dark:text-gray-400">Assisted with the final deployment and hosting setup.</p>
     </div>
     
@@ -189,5 +285,3 @@
 </script>
 </body>
 </html>
-
-
