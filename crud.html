@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="shortcut icon" type="images\DSA ICON.png" href="images\DSA ICON.png">
-<title>CRUD System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="images\DSA LOGO.png" href="images\DSA LOGO.png">
+<title>CRUD System - Crud</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -12,180 +13,388 @@
 </script>
 
 <style>
-  /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX: Ensures all elements transition smoothly */
+  /* 🌐 UNIVERSAL SMOOTH TRANSITION FIX */
   *, *::before, *::after {
     transition-property: all;
     transition-duration: 500ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
+
+  /* --- 🧭 NAVBAR STYLES --- */
+  
+  /* Glass effect for the navbar */
+  .glass-nav {
+      background: rgba(37, 99, 235, 0.85); /* Blue-600 with transparency */
+      backdrop-filter: blur(12px);          /* The frosted glass blur */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .dark .glass-nav {
+      background: rgba(17, 24, 39, 0.85);   /* Dark mode transparency */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* The smooth link item */
+  .nav-item {
+      position: relative;
+      padding: 0.5rem 1rem; /* Reduced horizontal padding for smaller screens */
+      border-radius: 9999px; /* Pill shape */
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      font-size: 0.875rem; /* Smaller font on mobile */
+  }
+
+  @media (min-width: 768px) {
+      .nav-item {
+          padding: 0.5rem 1.25rem;
+          font-size: 1rem;
+      }
+  }
+
+  /* Hover State: Lift up, glow, and brighten */
+  .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Active State (Current Page) */
+  .nav-item.active-link {
+      background-color: white;
+      color: #2563eb; /* Blue-600 text */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+  }
+  .dark .nav-item.active-link {
+      background-color: #3b82f6; /* Blue-500 in dark mode */
+      color: white;
+  }
+
+  /* --- EXISTING TABLE ANIMATIONS --- */
+  .fade-in-item {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+  }
+  .fade-in-item.active {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  /* Refresh Button */
+  .refresh-btn-style {
+      background-color: #00bcd4;
+      color: white;
+      border: 2px solid #0097a7;
+  }
+  .refresh-btn-style:hover {
+      background-color: #0097a7;
+  }
 </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
 
-<nav class="bg-blue-600 text-white p-4">
-  <div class="container mx-auto flex justify-between">
-    <h1 class="text-xl font-bold">CRUD System</h1>
-    <div class="flex items-center space-x-4">
-      <a href="index.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Home</a>
-      <a href="crud.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">CRUD</a>
-      <a href="linkedlist.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Linked List</a>
+<nav class="sticky top-0 z-50 glass-nav text-white transition-all duration-300 shadow-lg">
+  <div class="container mx-auto flex flex-row justify-center md:justify-between items-center px-4 py-3">
+    
+    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight cursor-pointer hover:scale-[1.02] transition-transform duration-300 flex items-center gap-2 mb-0">
+      <img src="images\DSA.png" alt="DSA Logo" class="w-8 h-8 md:w-9 md:h-9 invert filter drop-shadow-lg">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200 filter drop-shadow-md whitespace-nowrap">
+        DSA Crud System
+      </span>
+    </h1>
+
+    <div class="flex flex-nowrap items-center space-x-2 md:space-x-4 mx-2">
+      <a href="index.html" class="nav-item whitespace-nowrap">Home</a>
+      <a href="crud.html" class="nav-item active-link whitespace-nowrap">CRUD</a>
+      <a href="linkedlist.html" class="nav-item whitespace-nowrap">Linked List</a>
       
-      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500 transition duration-300">
-        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-white/20 transition-all duration-500 hover:rotate-180 transform focus:outline-none ring-2 ring-transparent focus:ring-white/50 ml-2 flex-shrink-0">
+        <svg id="sunIcon" class="w-6 h-6 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<div class="container mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition duration-500 ease-in-out transform hover:shadow-xl">
-
-  <h2 class="text-2xl font-semibold mb-4 dark:text-white transition-colors duration-500">Manage Records</h2>
-
-  <div class="mb-4">
-    <input id="searchInput" type="text" placeholder="Search by ID, Name, Block, Instructor, or Subject..." 
-           class="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300" 
-           onkeyup="renderTable()">
-  </div>
+<div class="container mx-auto mt-6 md:mt-10 px-4 sm:px-6 lg:px-8">
   
-  <div class="flex flex-wrap gap-4 mb-4 items-end">
-    <input id="idInput" type="number" placeholder="ID" class="p-2 border rounded w-full lg:w-32 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-    <input id="nameInput" type="text" placeholder="Name" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-    <input id="blockInput" type="text" placeholder="Block" class="p-2 border rounded w-full lg:w-32 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-    <input id="instructorInput" type="text" placeholder="Instructor" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-    <input id="subjectInput" type="text" placeholder="Subject" class="p-2 border rounded w-full lg:w-64 transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600">
-    
-    <div class="flex flex-col space-y-2 p-2 border rounded dark:border-gray-600 w-full md:w-1/2 lg:w-auto">
-        <label for="imageInput" class="text-sm dark:text-gray-400 font-medium">Profile Picture (Optional)</label>
-        <input id="imageInput" type="file" accept="image/*" class="file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-gray-600 dark:file:text-gray-200 dark:text-gray-200">
+  <div class="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow-xl transition duration-500 ease-in-out">
+
+    <h2 class="text-xl md:text-2xl font-semibold mb-4 dark:text-white transition-colors duration-500 border-b pb-2 dark:border-gray-700">Manage Records</h2>
+
+    <div class="mb-6">
+      <input id="searchInput" type="text" placeholder="Search by ID, Name, Block, Course, Instructor, Subject, or Year..." 
+             class="p-3 border rounded w-full text-base focus:ring-4 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300 shadow-inner" 
+             onkeyup="renderTable()">
     </div>
     
-    <button onclick="createRecord()" class="bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-blue-700 hover:scale-105 shadow-md hover:shadow-lg w-full md:w-auto">Create</button>
-    <button onclick="updateRecord()" class="bg-yellow-500 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-yellow-600 hover:scale-105 shadow-md hover:shadow-lg w-full md:w-auto">Update</button>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <input id="idInput" type="number" placeholder="ID" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 col-span-1">
+      <input id="nameInput" type="text" placeholder="Name" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 col-span-1">
+      <input id="blockInput" type="text" placeholder="Block" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 col-span-1">
+      
+      <select id="yearInput" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 col-span-1">
+          <option value="" disabled selected>Select Year</option>
+          <option value="1st Year">1st Year</option>
+          <option value="2nd Year">2nd Year</option>
+          <option value="3rd Year">3rd Year</option>
+          <option value="4th Year">4th Year</option>
+      </select>
+      
+      <input id="courseInput" type="text" placeholder="Course (e.g., BSIT, BSCS)" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 col-span-1">
+
+      <input id="instructorInput" type="text" placeholder="Instructor" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 md:col-span-2 lg:col-span-2">
+      <input id="subjectInput" type="text" placeholder="Subject" class="p-3 border rounded w-full transition duration-300 focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 md:col-span-2 lg:col-span-1">
+      
+      <div class="col-span-1 md:col-span-2 lg:col-span-4 p-3 border rounded dark:border-gray-600">
+          <label for="imageInput" class="text-sm dark:text-gray-400 font-medium mb-2 block">Profile Picture (Optional)</label>
+          
+          <label for="imageInput" id="imageInputLabel" class="cursor-pointer flex items-center justify-center space-x-2 py-2 px-4 rounded-full border-0 text-sm font-semibold 
+                 bg-gray-300 text-gray-800 hover:bg-gray-400 transition duration-300 ease-in-out 
+                 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700 shadow-md w-full max-w-sm">
+              <img src="images\file.png" alt="Upload Icon" class="w-4 h-4 invert-0 filter brightness-100 dark:invert">
+              <span id="imageInputText">Choose File</span>
+          </label>
+          
+          <input id="imageInput" type="file" accept="image/*" class="sr-only" onchange="updateImageInputLabel(this)">
+      </div>
+
+    </div>
+
+    <div id="actionButtons" class="flex flex-wrap justify-center gap-3 md:gap-4 mb-8">
+        <button id="createBtn" onclick="createRecord()" class="bg-blue-600 text-white px-4 py-2 rounded-full transition duration-300 ease-in-out hover:bg-blue-700 hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="images\add-user.png" alt="Add Student Icon" class="w-5 h-5"> 
+            <span>Add Student</span>
+        </button>
+        <button id="saveChangesBtn" onclick="updateRecord()" class="hidden bg-green-600 text-white px-4 py-2 rounded-full transition duration-300 ease-in-out hover:bg-green-700 hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="images\verified-account.png" alt="Save Icon" class="w-5 h-5">
+            <span>Save Changes</span>
+        </button>
+        
+        <button id="clearFormBtn" onclick="clearForm()" class="bg-gray-500 text-white px-4 py-2 rounded-full transition duration-300 ease-in-out hover:bg-gray-600 hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="C:\Users\Windows 11\Downloads\DSA CRUD SYSTEM HTML\broom.png" alt="Clear Form Icon" class="w-5 h-5">
+            <span>Clear Form</span>
+        </button>
+        <button id="refreshBtn" onclick="renderTable(true)" class="refresh-btn-style px-4 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="C:\Users\Windows 11\Downloads\DSA CRUD SYSTEM HTML\refresh-page-option.png" alt="Refresh List Icon" class="w-5 h-5"> 
+            <span>Refresh List</span>
+        </button>
+
+        <button id="cancelChangesBtn" onclick="cancelEdit()" class="hidden bg-red-600 text-white px-4 py-2 rounded-full transition duration-300 ease-in-out hover:bg-red-700 hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="images\cancel.png" alt="Cancel Icon" class="w-5 h-5">
+            <span>Cancel Update</span>
+        </button>
+        <button id="clearAllBtn" onclick="clearAll()" class="bg-red-600 text-white px-4 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:bg-red-700 hover:scale-[1.03] shadow-md hover:shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto min-w-[150px]">
+            <img src="images\bin.png" alt="Delete All Icon" class="w-5 h-5">
+            <span>Delete All</span>
+        </button>
+    </div>
+
+    <div class="overflow-x-auto rounded-lg border dark:border-gray-700 shadow-md">
+      <table class="w-full table-auto border-collapse">
+        <thead class="bg-gray-200 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600 sticky top-0">
+          <tr class="text-left text-gray-600 dark:text-gray-300 uppercase text-xs sm:text-sm leading-normal">
+            <th class="py-3 px-3 text-center min-w-[60px]">Picture</th>
+            <th class="py-3 px-3 text-center min-w-[50px]">ID</th>
+            <th class="py-3 px-3 text-left min-w-[150px]">Name</th>
+            <th class="py-3 px-3 text-center min-w-[80px]">Course</th>
+            <th class="py-3 px-3 text-center min-w-[60px]">Year</th>
+            <th class="py-3 px-3 text-center min-w-[80px]">Block</th>
+            <th class="py-3 px-3 text-left min-w-[150px]">Instructor</th>
+            <th class="py-3 px-3 text-left min-w-[150px]">Subject</th>
+            <th class="py-3 px-3 text-center min-w-[100px]">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable" class="text-gray-600 text-sm font-light dark:text-gray-300 divide-y dark:divide-gray-700">
+          </tbody>
+      </table>
+    </div>
   </div>
-
-  <div class="overflow-x-auto">
-    <table class="w-full table-auto border-collapse">
-      <thead class="bg-gray-200 dark:bg-gray-700 border-b border-gray-400 dark:border-gray-600 transition-colors duration-500">
-        <tr>
-          <th class="min-w-[80px] p-2 text-center dark:text-white">Picture</th> 
-          <th class="min-w-[50px] p-2 text-center dark:text-white">ID</th>
-          <th class="min-w-[150px] p-2 text-left dark:text-white">Name</th>
-          <th class="min-w-[80px] p-2 text-center dark:text-white">Block</th>
-          <th class="min-w-[150px] p-2 text-left dark:text-white">Instructor</th>
-          <th class="min-w-[150px] p-2 text-left dark:text-white">Subject</th>
-          <th class="min-w-[120px] p-2 dark:text-white">Action</th>
-        </tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
-  </div>
-
-  <button onclick="clearAll()" class="mt-5 bg-gray-700 text-white px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-gray-800 hover:scale-105 shadow-md hover:shadow-lg">
-    Clear All
-  </button>
-
 </div>
 
 <script>
-  let records = JSON.parse(localStorage.getItem("crudRecords")) || [];
+  let records = JSON.parse(localStorage.getItem('crudRecords')) || [];
+  let nextId = records.length > 0 ? Math.max(...records.map(r => r.id)) + 1 : 1;
 
-  function save() {
-    localStorage.setItem("crudRecords", JSON.stringify(records));
-  }
-
-  // NEW ASYNC HELPER FUNCTION: Converts a file object to a Base64 Data URL string
+  const idInput = document.getElementById("idInput");
+  const nameInput = document.getElementById("nameInput");
+  const blockInput = document.getElementById("blockInput");
+  const instructorInput = document.getElementById("instructorInput");
+  const subjectInput = document.getElementById("subjectInput");
+  const yearInput = document.getElementById("yearInput"); 
+  const courseInput = document.getElementById("courseInput");
+  
+  // Utility function to convert file to Data URL
   function readFileAsDataURL(file) {
-    if (!file) return Promise.resolve(null);
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
+      reader.onerror = error => reject(error);
       reader.readAsDataURL(file);
     });
   }
 
-  // Render table (UPDATED for Search Bar and Picture Column)
-  function renderTable() {
-    const table = document.getElementById("tableBody");
-    const searchInput = document.getElementById("searchInput");
-    const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : "";
-    
-    table.innerHTML = "";
-
-    const filteredRecords = records.filter(r => {
-        if (!searchTerm) return true;
-
-        return String(r.id).toLowerCase().includes(searchTerm) ||
-               r.name.toLowerCase().includes(searchTerm) ||
-               r.block.toLowerCase().includes(searchTerm) ||
-               r.instructor.toLowerCase().includes(searchTerm) ||
-               r.subject.toLowerCase().includes(searchTerm);
-    });
-
-    filteredRecords.forEach(r => {
-      // Construct the image HTML, defaulting to a placeholder if no picture is stored
-      const pictureHtml = r.picture 
-        ? `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500">`
-        : `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400">👤</div>`;
-        
-      table.innerHTML += `
-        <tr class="border-b border-gray-200 dark:border-gray-700 transition duration-300 ease-in-out dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50">
-          <td class="p-2 text-center">${pictureHtml}</td> <td class="p-2 text-center">${r.id}</td>
-          <td class="p-2 text-left">${r.name}</td>
-          <td class="p-2 text-center">${r.block}</td>
-          <td class="p-2 text-left">${r.instructor}</td>
-          <td class="p-2 text-left">${r.subject}</td>
-          <td class="p-2 text-center space-x-2">
-            <button onclick="loadRecord(${r.id})" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm transition duration-200 hover:bg-yellow-600 hover:scale-110">Edit</button>
-            <button onclick="deleteRecord(${r.id})" class="bg-red-600 text-white px-2 py-1 rounded text-sm transition duration-200 hover:bg-red-700 hover:scale-110">Delete</button>
-          </td>
-        </tr>
-      `;
-    });
-    
-    // Display message if no records match the filter
-    if (filteredRecords.length === 0 && searchTerm !== "") {
-        table.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500 dark:text-gray-400">No records found matching "${searchTerm}".</td></tr>`;
-    } else if (records.length === 0) {
-        table.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-gray-500 dark:text-gray-400">No records created yet.</td></tr>`;
-    }
+  /**
+   * Updates the custom file input label with the selected file name.
+   */
+  function updateImageInputLabel(input) {
+      const labelText = document.getElementById('imageInputText');
+      if (input.files && input.files.length > 0) {
+          // Show the file name, or default to '1 file selected'
+          labelText.textContent = input.files[0].name.length > 20 
+              ? input.files[0].name.substring(0, 17) + '...' 
+              : input.files[0].name;
+      } else {
+          labelText.textContent = 'Choose File';
+      }
   }
 
-  // Create record (UPDATED to be async to handle file reading)
+  function save() {
+    localStorage.setItem('crudRecords', JSON.stringify(records));
+    // Dispatch a storage event to notify other tabs (like linkedlist.html)
+    window.dispatchEvent(new Event('storage'));
+  }
+  
+  function clearInputs() {
+    idInput.value = "";
+    nameInput.value = "";
+    blockInput.value = "";
+    instructorInput.value = "";
+    subjectInput.value = "";
+    yearInput.value = ""; 
+    courseInput.value = "";
+    document.getElementById("imageInput").value = "";
+    // Reset the custom label text
+    document.getElementById('imageInputText').textContent = 'Choose File'; 
+  }
+  
+  /**
+   * Clears only the form inputs.
+   */
+  function clearForm() {
+      clearInputs();
+      // Ensure the system returns to "Create" mode if it was in "Edit" mode
+      toggleEditMode(false);
+  }
+  
+  /**
+   * Toggles the visibility of action buttons based on whether the system is in "Editing" mode.
+   * @param {boolean} isEditing - true to show Save/Cancel, false to show Create/Refresh/Clear.
+   */
+  function toggleEditMode(isEditing) {
+    // Buttons for Create/Normal Mode (Hidden in Edit Mode)
+    document.getElementById("createBtn").classList.toggle('hidden', isEditing);
+    document.getElementById("clearFormBtn").classList.toggle('hidden', isEditing);
+    document.getElementById("refreshBtn").classList.toggle('hidden', isEditing);
+    document.getElementById("clearAllBtn").classList.toggle('hidden', isEditing);
+    
+    // Buttons for Edit Mode (Visible in Edit Mode)
+    document.getElementById("saveChangesBtn").classList.toggle('hidden', !isEditing);
+    document.getElementById("cancelChangesBtn").classList.toggle('hidden', !isEditing);
+    
+    // Disable ID input when editing
+    idInput.disabled = isEditing;
+  }
+  
   async function createRecord() {
-    let id = parseInt(idInput.value);
+    let id = nextId;
     let name = nameInput.value.trim();
     let block = blockInput.value.trim();
     let instructor = instructorInput.value.trim();
     let subject = subjectInput.value.trim();
-    
+    let year = yearInput.value;
+    let course = courseInput.value.trim(); 
     const imageFile = document.getElementById("imageInput").files[0];
-
-    if (!id || !name || !block || !instructor || !subject) {
-      return alert("Fill all fields!");
-    }
-    if (records.some(r => r.id === id)) return alert("ID already exists!");
-
-    // Wait for the image file to be converted to a Data URL
-    const pictureDataURL = await readFileAsDataURL(imageFile);
-
-    records.push({ 
-      id, 
-      name, 
-      block, 
-      instructor, 
-      subject, 
-      picture: pictureDataURL // Save the Data URL
-    });
     
-    save();
-    renderTable();
-    idInput.value = nameInput.value = blockInput.value = instructorInput.value = subjectInput.value = "";
-    document.getElementById("imageInput").value = ""; // Clear file input
+    let pictureDataURL = "";
+    if (imageFile) {
+        pictureDataURL = await readFileAsDataURL(imageFile);
+    }
+    
+    if (name && block && instructor && subject && year && course) { 
+      records.push({ id, name, block, instructor, subject, year, course, picture: pictureDataURL });
+      nextId++;
+      save();
+      renderTable(true); // Apply animation on create
+      clearInputs();
+    } else {
+      alert("Please fill in all required fields.");
+    }
   }
 
-  // Load record for editing (UPDATED to clear image input)
+  function renderTable(applyAnimation = false) {
+    const table = document.getElementById('dataTable');
+    table.innerHTML = '';
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    const filteredRecords = records.filter(r => 
+        r.id.toString().includes(searchTerm) || 
+        r.name.toLowerCase().includes(searchTerm) || 
+        r.block.toLowerCase().includes(searchTerm) || 
+        (r.course && r.course.toLowerCase().includes(searchTerm)) || 
+        r.instructor.toLowerCase().includes(searchTerm) || 
+        r.subject.toLowerCase().includes(searchTerm) ||
+        r.year.toString().includes(searchTerm)
+    );
+
+    const colspanCount = 9; 
+    
+    if (searchTerm && filteredRecords.length === 0) {
+        table.innerHTML = `<tr><td colspan="${colspanCount}" class="p-4 text-center text-gray-500 dark:text-gray-400">No records found matching "${searchTerm}".</td></tr>`;
+    } else if (records.length === 0) {
+        table.innerHTML = `<tr><td colspan="${colspanCount}" class="p-4 text-center text-gray-500 dark:text-gray-400">No records created yet.</td></tr>`;
+    }
+    
+    filteredRecords.forEach((r, index) => {
+        // Construct the image HTML
+        const pictureHtml = r.picture ? 
+            `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500 shadow-md">` :
+            `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400 shadow-inner">👤</div>`;
+            
+      const row = document.createElement('tr');
+      // Apply the animation class. If not animating, set it to 'active' immediately.
+      row.className = `border-b border-gray-200 dark:border-gray-700 transition duration-300 ease-in-out dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${applyAnimation ? 'fade-in-item' : 'fade-in-item active'}`;
+      row.innerHTML = `
+        <td class="py-3 px-3 text-center">${pictureHtml}</td>
+        <td class="py-3 px-3 text-center">${r.id}</td>
+        <td class="py-3 px-3 text-left font-medium">${r.name}</td>
+        <td class="py-3 px-3 text-center">${r.course}</td>
+        <td class="py-3 px-3 text-center">${r.year}</td>
+        <td class="py-3 px-3 text-center">${r.block}</td>
+        <td class="py-3 px-3 text-left">${r.instructor}</td>
+        <td class="py-3 px-3 text-left">${r.subject}</td>
+        <td class="py-3 px-3 text-center space-x-1 flex justify-center items-center">
+          <button onclick="loadRecord(${r.id})" title="Edit Record" class="bg-yellow-500 text-white p-2 rounded-full hover:bg-yellow-600 transition duration-300 ease-in-out hover:scale-110 shadow-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </button>
+          <button onclick="deleteRecord(${r.id})" title="Delete Record" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition duration-300 ease-in-out hover:scale-110 shadow-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        </td>
+      `;
+      table.appendChild(row);
+      
+      // Stagger the animation
+      if (applyAnimation) {
+          setTimeout(() => {
+              row.classList.add('active');
+          }, index * 50); // 50ms delay per row
+      }
+    });
+  }
+
+  function deleteRecord(id) {
+    if (confirm("Are you sure you want to delete this record?")) {
+      records = records.filter(r => r.id !== id);
+      save();
+      renderTable(true); // Apply animation on delete
+      toggleEditMode(false);
+      clearInputs();
+    }
+  }
+
   function loadRecord(id) {
     let r = records.find(x => x.id === id);
     if (r) {
@@ -194,56 +403,65 @@
       blockInput.value = r.block;
       instructorInput.value = r.instructor;
       subjectInput.value = r.subject;
-      // Clear file input on load. To update the picture, the user must select a new one.
-      document.getElementById("imageInput").value = ""; 
+      yearInput.value = r.year; 
+      courseInput.value = r.course || ""; 
+      document.getElementById("imageInput").value = ""; // Clear file input
+      document.getElementById('imageInputText').textContent = 'Choose File'; // Reset custom label
+      // --- Toggles buttons to Edit Mode ---
+      toggleEditMode(true); 
     }
   }
 
-  // Update record (UPDATED to be async to handle file reading)
   async function updateRecord() {
     let id = parseInt(idInput.value);
     let r = records.find(x => x.id === id);
     const imageFile = document.getElementById("imageInput").files[0];
-
+    
     if (!r) return alert("Record not found!");
     
-    // If a new image is selected, convert it and use the new Data URL.
-    // Otherwise, r.picture remains the original Data URL (or null).
-    let newPictureDataURL = r.picture; 
-
+    let newPictureDataURL = r.picture;
     if (imageFile) {
-      newPictureDataURL = await readFileAsDataURL(imageFile);
+        newPictureDataURL = await readFileAsDataURL(imageFile);
     }
     
     r.name = nameInput.value.trim();
     r.block = blockInput.value.trim();
     r.instructor = instructorInput.value.trim();
     r.subject = subjectInput.value.trim();
-    r.picture = newPictureDataURL; // Update picture field
-
-    save();
-    renderTable();
-    idInput.value = nameInput.value = blockInput.value = instructorInput.value = subjectInput.value = "";
-    document.getElementById("imageInput").value = ""; // Clear file input
-  }
-
-  // Delete record
-  function deleteRecord(id) {
-    records = records.filter(r => r.id !== id);
-    save();
-    renderTable();
-  }
-
-  // Clear all
-  function clearAll() {
-    if (confirm("Are you sure you want to clear all records?")) {
-      records = [];
+    r.year = yearInput.value;
+    r.course = courseInput.value.trim(); 
+    r.picture = newPictureDataURL; // Update picture
+    
+    // Check if all fields are filled including the new course field
+    if (r.name && r.block && r.instructor && r.subject && r.year && r.course) {
       save();
-      renderTable();
+      renderTable(true); // Apply animation on update
+      clearInputs();
+      // --- Toggles buttons back to Create Mode ---
+      toggleEditMode(false);
+    } else {
+      alert("Please fill in all required fields.");
     }
   }
 
-  renderTable();
+  function cancelEdit() {
+    clearInputs();
+    // --- Toggles buttons back to Create Mode ---
+    toggleEditMode(false);
+  }
+
+  function clearAll() {
+    if (confirm("Are you absolutely sure you want to clear ALL records? This action cannot be undone.")) {
+      records = [];
+      save();
+      renderTable(true); 
+      clearInputs(); 
+      toggleEditMode(false);
+    }
+  }
+
+  // Initial load: do not apply staggered animation
+  renderTable(false); 
 
   // **DARK MODE SCRIPT**
   window.addEventListener('load', () => {
@@ -268,8 +486,7 @@
       sunIcon.classList.toggle('hidden', isDark);
       moonIcon.classList.toggle('hidden', !isDark);
       
-      // Re-render table to ensure data text colors apply immediately when theme changes
-      renderTable(); 
+      renderTable(false); // Re-render table without animation on theme change
     }
 
     const savedTheme = localStorage.getItem('theme');
@@ -282,11 +499,9 @@
     }
 
     toggleBtn.addEventListener('click', () => {
-      applyTheme(!htmlEl.classList.contains('dark'));
+      applyTheme(htmlEl.classList.contains('dark') ? false : true);
     });
   });
 </script>
-
 </body>
-
 </html>
