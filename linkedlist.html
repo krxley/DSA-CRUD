@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="shortcut icon" type="images\DSA ICON.png" href="images\DSA ICON.png">
-<title>Visual Linked List</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="shortcut icon" type="images\DSA LOGO.png" href="images\DSA LOGO.png">
+<title>Student Records List - Linked List</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // CRITICAL FIX: Ensure Tailwind uses 'class' strategy for dark mode
+  tailwind.config = {
+    darkMode: 'class',
+  }
+</script>
 <style>
   /* 🚀 UNIVERSAL SMOOTH TRANSITION FIX */
   *, *::before, *::after {
@@ -13,16 +19,65 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* --- 🚀 NEW NAVBAR STYLES --- */
+  
+  /* Glass effect for the navbar */
+  .glass-nav {
+      background: rgba(37, 99, 235, 0.85); /* Blue-600 with transparency */
+      backdrop-filter: blur(12px);          /* The frosted glass blur */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .dark .glass-nav {
+      background: rgba(17, 24, 39, 0.85);   /* Dark mode transparency */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* The smooth link item */
+  .nav-item {
+      position: relative;
+      /* FIX: Reduced padding for better mobile fit */
+      padding: 0.5rem 0.75rem; 
+      border-radius: 9999px; /* Pill shape */
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+  }
+
+  /* Hover State: Lift up, glow, and brighten */
+  .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  }
+
+  /* Active State (Current Page) */
+  .nav-item.active-link {
+      background-color: white;
+      color: #2563eb; /* Blue-600 text */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: scale(1.05);
+  }
+  .dark .nav-item.active-link {
+      background-color: #3b82f6; /* Blue-500 in dark mode */
+      color: white;
+  }
+
   /* --- Styles for the Table Layout --- */
   .linked-list-table {
     border-collapse: collapse;
-    /* 100% width, but min-width ensures it's wide enough for all columns on small screens */
-    min-width: 800px; 
+    /* ⭐ FIXED: Removed min-width to allow the table to be responsive */
   }
 
   .linked-list-table th, .linked-list-table td {
-    padding: 10px;
+    padding: 12px 10px; /* Adjusted padding slightly for better look on all screens */
     border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  }
+  
+  /* ⭐ FIXED: Custom style for Picture column to reduce padding */
+  .linked-list-table .pic-cell {
+      padding: 12px 4px; 
+      min-width: 60px; /* Ensure space for the 40px image + padding */
   }
 
   .dark .linked-list-table th, .dark .linked-list-table td {
@@ -37,49 +92,81 @@
   .dark .linked-list-table thead {
     background-color: #4b5563; /* gray-600 */
   }
+  
+  /* ⚙️ ADJUSTED for MAXIMUM Smoothness and Slowness (1.2s duration) */
+  .fade-in-item {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 1.2s ease-out, transform 1.2s ease-out; 
+  }
+  .fade-in-item.active {
+      opacity: 1;
+      transform: translateY(0);
+  }
+
+  /* Styling for the Refresh Button */
+  .refresh-btn-style {
+      background-color: #00bcd4; 
+      color: white;
+      border: 2px solid #0097a7; 
+  }
+  .refresh-btn-style:hover {
+      background-color: #0097a7;
+  }
 </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
 
-<nav class="bg-blue-600 text-white p-4">
-  <div class="container mx-auto flex justify-between">
-    <h1 class="text-xl font-bold">Visual Linked List</h1>
-    <div class="flex items-center space-x-4">
-      <a href="index.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Home</a>
-      <a href="crud.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">CRUD</a>
-      <a href="linkedlist.html" class="hover:underline transition duration-300 ease-in-out hover:text-gray-200">Linked List</a>
+<nav class="sticky top-0 z-50 glass-nav text-white transition-all duration-300 shadow-md">
+  <div class="container mx-auto flex justify-between items-center p-4">
+    
+    <h1 class="text-xl md:text-2xl font-extrabold tracking-tight cursor-pointer hover:scale-110 transition-transform duration-300 flex items-center gap-2">
+      <img src="images\DSA.png" alt="DSA Logo" class="w-6 h-6 md:w-9 md:h-9 invert filter drop-shadow-lg">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200 filter drop-shadow-md">
+        DSA Crud System
+      </span>
+    </h1>
+
+    <div class="flex items-center space-x-2 md:space-x-4">
+      <a href="index.html" class="nav-item text-sm md:text-base">Home</a>
+      <a href="crud.html" class="nav-item text-sm md:text-base">CRUD</a>
+      <a href="linkedlist.html" class="nav-item active-link text-sm md:text-base">Linked List</a>
       
-      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-blue-500 transition duration-300">
-        <svg id="sunIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-        <svg id="moonIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+      <button id="darkModeToggle" class="p-2 rounded-full hover:bg-white/20 transition-all duration-500 hover:rotate-180 transform focus:outline-none ring-2 ring-transparent focus:ring-white/50">
+        <svg id="sunIcon" class="w-6 h-6 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <svg id="moonIcon" class="w-6 h-6 hidden drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<div class="container mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition duration-500 ease-in-out transform hover:shadow-xl">
-  <h2 class="text-2xl font-semibold mb-4 dark:text-white transition-colors duration-500">Visual Linked List</h2>
+<div class="container mx-auto mt-10 px-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition duration-500 ease-in-out transform hover:shadow-xl">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl md:text-2xl font-semibold dark:text-white transition-colors duration-500">Student Records List (Linked List View)</h2>
+    
+    <button id="refreshBtn" onclick="renderLinkedList(true)" class="refresh-btn-style px-4 py-2 rounded-full font-semibold transition duration-300 ease-in-out hover:scale-105 shadow-md hover:shadow-lg flex items-center space-x-2 text-sm md:text-base">
+        <img src="images\refresh-page-option.png" alt="Refresh List Icon" class="w-4 h-4 md:w-5 md:h-5"> 
+        <span>Refresh List</span>
+    </button>
+  </div>
   
   <div class="mb-6">
-    <input id="linkedListSearchInput" type="text" placeholder="Filter nodes by ID, Name, Block, Instructor, or Subject..." 
-           class="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300"
+    <input id="linkedListSearchInput" type="text" placeholder="Filter nodes by ID, Name, Course, Year, Block, Instructor, or Subject..." 
+           class="p-2 border rounded w-full focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 transition duration-300 text-sm md:text-base"
            onkeyup="renderLinkedList()">
   </div>
   
   <div class="overflow-x-auto">
-    <div id="linkedList" class="flex flex-col gap-0 items-center">
+    <div id="linkedListContainer" class="flex flex-col gap-0 items-center">
       </div>
   </div>
 </div>
 
 <script>
-// CRITICAL FIX: Force Tailwind to use the 'class' strategy
-tailwind.config = {
-  darkMode: 'class',
-}
-
-function renderLinkedList() {
-  const container = document.getElementById("linkedList");
+function renderLinkedList(applyAnimation = false) {
+  const container = document.getElementById("linkedListContainer");
+  
+  // Clear the container first
   container.innerHTML = "";
 
   // Get ALL records from localStorage
@@ -89,13 +176,15 @@ function renderLinkedList() {
   const searchInput = document.getElementById("linkedListSearchInput");
   const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : "";
   
-  // 1. Filter records based on search term
+  // 1. Filter records based on search term (NOW INCLUDES COURSE)
   const filteredRecords = allRecords.filter(r => {
       if (!searchTerm) return true;
 
-      // Check if search term is present in any field (ID, Name, Block, Instructor, Subject)
+      // Check if search term is present in any field
       return String(r.id).toLowerCase().includes(searchTerm) ||
              r.name.toLowerCase().includes(searchTerm) ||
+             (r.course && r.course.toLowerCase().includes(searchTerm)) || // Added Course Filter
+             String(r.year).toLowerCase().includes(searchTerm) ||
              r.block.toLowerCase().includes(searchTerm) ||
              r.instructor.toLowerCase().includes(searchTerm) ||
              r.subject.toLowerCase().includes(searchTerm);
@@ -111,55 +200,70 @@ function renderLinkedList() {
      return;
   }
 
-  // 2. Generate Table Structure
+  // 2. Generate Table Structure HTML 
   let tableHTML = `
     <table class="linked-list-table min-w-full dark:text-gray-300">
       <thead>
         <tr>
-          <th class="text-center w-1/12">Picture</th> 
-          <th class="text-left w-1/12">ID</th>
-          <th class="text-left w-1/4">Name</th>
-          <th class="text-left w-1/12">Block</th>
-          <th class="text-left w-1/4">Instructor</th>
-          <th class="text-left w-1/4">Subject</th>
+          <th class="pic-cell text-center">Picture</th> 
+          <th class="py-3 px-3 text-center min-w-[50px]">ID</th>
+          <th class="py-3 px-3 text-left min-w-[150px]">Name</th>
+          <th class="py-3 px-3 text-center min-w-[80px]">Course</th> 
+          <th class="py-3 px-3 text-center min-w-[60px]">Year</th> 
+          <th class="py-3 px-3 text-center min-w-[80px]">Block</th>
+          <th class="py-3 px-3 text-left min-w-[150px]">Instructor</th>
+          <th class="py-3 px-3 text-left min-w-[150px]">Subject</th>
         </tr>
       </thead>
-      <tbody>
-  `;
-  
-  filteredRecords.forEach(r => {
-    // Logic to display profile picture or placeholder
-    const pictureHtml = r.picture 
-      ? `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500">`
-      : `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400">👤</div>`;
-
-    tableHTML += `
-      <tr class="dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200">
-        <td class="text-center">${pictureHtml}</td> 
-        <td class="text-left">${r.id}</td>
-        <td class="text-left">${r.name}</td>
-        <td class="text-left">${r.block}</td>
-        <td class="text-left">${r.instructor}</td>
-        <td class="text-left">${r.subject}</td>
-      </tr>
-    `;
-  });
-
-  tableHTML += `
+      <tbody id="linkedListBody">
       </tbody>
     </table>
   `;
 
-  // Display the generated table
+  // Display the empty table structure
   container.innerHTML = tableHTML;
+  const tableBody = document.getElementById("linkedListBody");
+  
+  // 3. Populate the table body with records one by one (for animation)
+  filteredRecords.forEach((r, index) => {
+    // Logic to display profile picture or placeholder
+    const pictureHtml = r.picture 
+      ? `<img src="${r.picture}" alt="Profile Pic" class="h-10 w-10 object-cover rounded-full mx-auto border-2 border-blue-500 shadow-md">`
+      : `<div class="h-10 w-10 rounded-full mx-auto bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-sm font-bold text-gray-700 dark:text-gray-400 shadow-inner">👤</div>`;
+
+    const row = document.createElement('tr');
+    // Apply the animation class. If not animating, set it to 'active' immediately.
+    row.className = `dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 ${applyAnimation ? 'fade-in-item' : 'fade-in-item active'}`;
+
+    row.innerHTML = `
+      <td class="pic-cell text-center">${pictureHtml}</td> 
+      <td class="py-3 px-3 text-center">${r.id}</td>
+      <td class="py-3 px-3 text-left">${r.name}</td>
+      <td class="py-3 px-3 text-center">${r.course || '-'}</td> 
+      <td class="py-3 px-3 text-center">${r.year}</td> 
+      <td class="py-3 px-3 text-center">${r.block}</td>
+      <td class="py-3 px-3 text-left">${r.instructor}</td>
+      <td class="py-3 px-3 text-left">${r.subject}</td>
+    `;
+    
+    tableBody.appendChild(row);
+
+    // ⚙️ ADJUSTED: Increased delay to 300ms for a much slower, more deliberate cascade
+    if (applyAnimation) {
+        setTimeout(() => {
+            row.classList.add('active');
+        }, index * 300); 
+    }
+  });
 }
 
-// Initial render
-renderLinkedList();
+// Initial render: do not apply staggered animation
+renderLinkedList(false);
 
 // CRITICAL FEATURE FOR AUTO-UPDATE: 
 // This listens for changes in localStorage made by another tab (i.e., crud.html)
-window.addEventListener('storage', renderLinkedList); 
+// When a change is detected, apply the staggered animation
+window.addEventListener('storage', () => renderLinkedList(true)); 
 
 // **DARK MODE SCRIPT**
 window.addEventListener('load', () => {
@@ -184,7 +288,8 @@ window.addEventListener('load', () => {
       sunIcon.classList.toggle('hidden', isDark);
       moonIcon.classList.toggle('hidden', !isDark);
       
-      renderLinkedList(); 
+      // Do not animate on theme change
+      renderLinkedList(false); 
     }
 
     const savedTheme = localStorage.getItem('theme');
@@ -203,5 +308,4 @@ window.addEventListener('load', () => {
 </script>
 
 </body>
-
 </html>
